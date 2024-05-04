@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./index.js" defer></script>
+</head>
+<body>
+
+    <main>
+        <h1>Jogo da Velha</h1>
+        <div class="game-config" id="config">
+            <h4>Comece por aqui!</h4>
+            <input class="input" type="text" placeholder="Nome do 1° Jogador (max 7 caracteres)" id="input-player1">
+            <input class="input" type="text" placeholder="Nome do 2° Jogador (max 7 caracteres)" id="input-player2">
+            <button id="start-game" class="btn">Iniciar Jogo</button>
+        </div>
+
+        <div class="game-stage hide" id="game">
+            <h4>Jogador: <span id="current-player"></span></h4>
+            <div class="boxes">
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+                <div class="box"></div>
+            </div>
+            <div class="result"></div>
+            <button id="restart-game" class="btn">Reiniciar Jogo</button>
+        </div>
+    </main>
+</body>
+</html>
