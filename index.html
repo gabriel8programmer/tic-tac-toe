@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,17 @@
     <link rel="stylesheet" href="style.css">
     <script src="./index.js" defer></script>
 </head>
+
 <body>
 
     <main>
+        <button id="change-theme" class="btn btn-theme">Tema / Claro</button>
         <h1>Jogo da Velha</h1>
-        <div class="game-config" id="config">
+        <div id="config" class="game-config">
             <h4>Comece por aqui!</h4>
             <input class="input" type="text" placeholder="Nome do 1° Jogador (max 7 caracteres)" id="input-player1">
             <input class="input" type="text" placeholder="Nome do 2° Jogador (max 7 caracteres)" id="input-player2">
-            <button id="start-game" class="btn">Iniciar Jogo</button>
+            <button id="start-game" class="btn btn-config">Iniciar Jogo</button>
         </div>
 
         <div class="game-stage hide" id="game">
@@ -32,8 +35,12 @@
                 <div class="box"></div>
             </div>
             <div class="result"></div>
-            <button id="restart-game" class="btn">Reiniciar Jogo</button>
+            <div class="container-buttons-inline">
+                <button id="back-menu" class="btn btn-config">Menu</button>
+                <button id="restart-game" class="btn btn-config">Reiniciar</button>
+            </div>
         </div>
     </main>
 </body>
+
 </html>

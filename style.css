@@ -8,15 +8,26 @@
 
 :root {
     --bg-color: #101115;
-    --font-light: #eee;
+    --font-color: #eee;
     --primary: rgb(0, 172, 129);
     --secondary: rgb(177, 177, 177);
     --error: rgb(233, 0, 0);
+    --tertiary: rgb(255, 255, 0);
+}
+
+/*theme light*/
+.light-theme {
+   --bg-color: #eee;
+   --font-color: #101115;
+   --primary: rgb(0, 87, 65);
+   --secondary: rgb(70, 70, 70);
+   --error: rgb(95, 0, 0);
+   --tertiary: rgb(0, 102, 219);
 }
 
 body {
     background-color: var(--bg-color);
-    color: var(--font-light);
+    color: var(--font-color);
 }
 
 h1 {
@@ -25,8 +36,8 @@ h1 {
     font-size: 2.5rem;
     text-transform: uppercase;
     letter-spacing: .5rem;
-    font-weight: 500;
-    text-shadow: 3px 3px 5px var(--primary);
+    font-weight: 900;
+    text-shadow: 3px 3px 1px var(--primary);
 }
 
 .game-config {
@@ -44,13 +55,16 @@ h1 {
 }
 
 .game-config input {
+    background: transparent;
+    color: var(--font-color);
+    border: 2px solid var(--secondary);
+    border-radius: 0.75rem;
     display: block;
     width: 100%;
     margin-bottom: 1rem;
     padding: 0.75rem;
     font-size: 1rem;
-    border-radius: 0.75rem;
-    border: 1px solid transparent;
+    font-weight: 400;
 }
 
 .game-stage h4 {
@@ -68,8 +82,8 @@ h1 {
 
 .boxes {
     width: 100%;
-    height: 25rem;
-    max-width: 25rem;
+    height: 20rem;
+    max-width: 20rem;
     margin: 2rem auto;
     display: flex;
     justify-content: center;
@@ -80,12 +94,13 @@ h1 {
 .box {
     width: 32%;
     height: 32%;
-    border: 1px solid #fff;
+    border: 2px solid var(--font-color);
     display: inline-block;
     border-radius: .75rem;
     transition: .5s;
     cursor: pointer;
     font-size: 3rem;
+    font-weight: 900;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,6 +110,9 @@ h1 {
     transform: scale(.95);
 }
 
+.box.disabled {
+    pointer-events: none;
+}
 
 .result {
     margin-bottom: 2rem;
@@ -102,7 +120,7 @@ h1 {
     font-size: 1.25rem;
     text-transform: uppercase;
     letter-spacing: .25rem;
-    font-weight: 400;
+    font-weight: 500;
     text-align: center;
 }
 
@@ -110,30 +128,55 @@ h1 {
 .hide {
     display: none;
 }
+
 .btn {
     display: block;
-    margin: 1.5rem auto;
     font-size: 1.15rem;
-    padding: 1rem 2rem;
+    padding: .75rem 1rem;
+    border: 2px solid transparent;
     border-radius: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.btn-config {
+    padding: 1rem 2rem;
+    margin: 1.5rem auto;
     background-color: transparent;
     color: var(--primary);
     border: 2px solid var(--primary);
     font-weight: 900;
-    letter-spacing: .25rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: .5s;
 }
 
 .btn:hover {
     border: 2px solid transparent;
     background-color: var(--primary);
-    color: var(--font-light);
+    color: var(--font-color);
 }
 
-.btn-close:hover {
-    opacity: 1;
+.btn-theme {
+    border: 2px solid var(--font-color);
+    background: var(--bg-color);
+    color: var(--font-color);
+    margin: 2rem auto;
+}
+
+.btn-theme:hover {
+    background: var(--font-color);
+    color: var(--bg-color);
+}
+
+.container-buttons-inline{
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.container-buttons-inline button {
+    display: inline-block;
+    margin: .5rem;
 }
 
 .mark-p1 {
@@ -142,4 +185,8 @@ h1 {
 
 .mark-p2 {
     color: var(--error) !important; 
+}
+
+.mark-break-even {
+    color: var(--tertiary) !important; 
 }

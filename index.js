@@ -1,4 +1,6 @@
 
+const root = document.querySelector(":root");
+const btnTheme = document.querySelector("#change-theme");
 //get elements of the config
 const config = document.querySelector("#config");
 const inputPlayer1 = document.querySelector("#input-player1");
@@ -10,6 +12,8 @@ const game = document.querySelector("#game");
 const currentPlayer = document.querySelector("#current-player");
 const boxes = document.querySelectorAll(".box");
 const result = document.querySelector(".result");
+const btnRestartGame = document.querySelector("#restart-game");
+const btnBackMenu = document.querySelector("#back-menu");
 
 const stringMoves = ["x", "o"];
 const playerColors = ["mark-p1", "mark-p2"];
@@ -44,6 +48,7 @@ function startGame() {
         alert("Jogadores com o mesmo nome não são permitido.\nInforme nomes diferentes!");
         return;
     }
+
     //set players
     players = [player1, player2];
     //clear the inputs
@@ -53,37 +58,104 @@ function startGame() {
     config.classList.add("hide");
     //show the screen of the game
     game.classList.remove("hide");
-    //runGame
-    updateGame();
+    //update currentPlayer
+    updateCurrentPlayer();
 }
 
-function updateGame() {
-    //init game
-    currentPlayer.className = "";
-    currentPlayer.innerText = players[move];
-    currentPlayer.classList.add(playerColors[move]);
+function disableAllBoxes() {
+    boxes.forEach(function (box) {
+        box.classList.add("disabled");
+    });
+}
 
-    //verify combinations
+function changePlayer() {
+    move = (move === 0) ? 1 : 0;
+}
+
+function verifyCombinations() {
+    let countCombinations = 0;
     combinations.forEach(function (combination) {
         const d1 = combination[0];
         const d2 = combination[1];
         const d3 = combination[2];
 
-        if (boxes[d1].innerText !== "" &&
+        const thereWasCombination = boxes[d1].innerText !== "" &&
             boxes[d1].innerText === boxes[d2].innerText &&
-            boxes[d2].innerText === boxes[d3].innerText) {
-            //it was gameover
-            gameover = true;
+            boxes[d2].innerText === boxes[d3].innerText;
+
+        if (!thereWasCombination) {
+            return;
         }
+
+        gameover = true;
+        countCombinations++;
+        //boxes hilighter
+        boxes[d1].className = "box " + playerColors[move];
+        boxes[d2].className = "box " + playerColors[move];
+        boxes[d3].className = "box " + playerColors[move];
+
+        //test if the player is win
+        if (move === 0) {
+            result.innerText = players[0] + " Venceu!";
+            //change class result
+            result.className = "result " + playerColors[0];
+        } else {
+            result.innerText = players[1] + " Venceu!";
+            //change class result
+            result.className = "result " + playerColors[1];
+        }
+
+        //disable all boxes
+        disableAllBoxes();
     });
+
+    if (countCombinations === 0) {
+        changePlayer();
+    }
 }
 
-function changePlayer(){
-    move = (move === 0) ? 1 : 0;
-    updateGame();
+function verifyBreakEven() {
+    //test if there was gameover
+    if (gameover) {
+        return;
+    }
+
+    let countBoxMarked = 0;
+    boxes.forEach(function (box) {
+        if (box.innerText !== "") {
+            countBoxMarked++;
+        }
+    });
+
+    //test if there wasn't a break even
+    if (countBoxMarked < 9) {
+        return;
+    }
+
+    gameover = true;
+    result.innerText = "empatou!";
+    result.className = "result mark-break-even";
+
+    //disable all boxes
+    disableAllBoxes();
+}
+
+function updateCurrentPlayer() {
+    currentPlayer.innerText = players[move];
+    currentPlayer.className = playerColors[move];
+}
+
+function updateGame() {
+    //verify combinations
+    verifyCombinations();
+    //verify break even
+    verifyBreakEven();
+    //update currentPlayer
+    updateCurrentPlayer();
 }
 
 function play(e) {
+    //get element
     const element = e.target;
 
     if (gameover || element.innerText !== "") {
@@ -91,19 +163,53 @@ function play(e) {
     }
 
     element.innerText = stringMoves[move];
-    //change player
-    changePlayer();
+    //update game
+    updateGame();
+}
+
+function clearBoxes() {
+    boxes.forEach(function (box) {
+        box.innerText = "";
+        box.className = "box";
+    });
+}
+
+function restartGame() {
+    //clear all boxes
+    clearBoxes();
+    //clear result
+    result.innerText = "";
+    result.className = "result";
+    //restart variables game
+    move = 0;
+    gameover = false;
+    //update game
+    updateCurrentPlayer();
+}
+
+function backMenu() {
+    //restart game
+    restartGame();
+    //hide the game
+    game.classList.add("hide");
+    //show menu
+    config.classList.remove("hide");
 }
 
 btnStartGame.addEventListener("click", startGame);
 
-document.querySelectorAll(".input").forEach(input => {
-    input.addEventListener("input", function (e) {
-        e.preventDefault();
-        const element = e.target;
-    });
-});
-
 boxes.forEach(function (boxElement) {
     boxElement.addEventListener("click", play);
 });
+
+//change theme
+btnTheme.addEventListener("click", function () {
+    root.classList.toggle("light-theme");
+    //change text button
+    const themeText = (root.classList.contains("light-theme") ? "tema / escuro" : "tema / claro");
+    btnTheme.innerText = themeText;
+});
+
+btnRestartGame.addEventListener("click", restartGame);
+
+btnBackMenu.addEventListener("click", backMenu);
